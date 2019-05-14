@@ -47,7 +47,8 @@ def go2heritage():
     drone.takeoff()
     sleep(7)
     height = drone.get_height()
-    drone.move_up(0.9-height)
+    a = 0.9 - height
+    drone.move_up(a)
     drone.get_height()
     sleep()
     drone.move_backward(0.5)
@@ -55,7 +56,8 @@ def go2heritage():
     y += 0.5
     sleep(7)
     height = drone.get_height()
-    drone.move_down(height-0.7)
+    b = height - 0.7
+    drone.move_down(b)
     height = drone.get_height()
     z = height
     drone.land()
