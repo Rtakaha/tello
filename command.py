@@ -17,6 +17,7 @@ class FirstCommand:
         self.degree_cw = degree_cw
         self.time = time
 
+
 # class Command:
 #     def __init__(self, type, time):
 #         self.type = type
