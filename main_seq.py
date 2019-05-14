@@ -72,9 +72,7 @@ def turn_AR():
     sleep(2)
     while(1):
         if 0 in list(all_detected_ids):
-            drone.takeoff()
-            sleep(10)
-            drone.rotate_cw(180)
+            drone.rotate_ccw(180)
             sleep(10)
             break
     telloui.onClose()
@@ -97,7 +95,6 @@ def check_damage():
 
 def back2home():
     print("back to home")
-    drone.takeoff()
     sleep(5)
     if x > 0:
         drone.move_left(abs(x))
@@ -116,6 +113,7 @@ def back2home():
 
     print("alert: " + str(alert))
     print("serious: " + str(serious))
+>>>>>>> master
 
 if __name__ == "__main__":
 
