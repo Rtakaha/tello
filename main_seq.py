@@ -50,7 +50,22 @@ def marker_detected(ids):
 
 def go2heritage():
     print("go to heritage")
-
+    drone.takeoff()
+    sleep(7)
+    height = drone.get_height()
+    a = 0.9 - height
+    drone.move_up(a)
+    drone.get_height()
+    sleep()
+    drone.move_backward(0.5)
+    drone.get_height()
+    y += 0.5
+    sleep(7)
+    height = drone.get_height()
+    b = height - 0.7
+    drone.move_down(b)
+    height = drone.get_height()
+    z = height
 
 def turn_AR():
     print("turn_AR")
@@ -63,7 +78,6 @@ def turn_AR():
             sleep(10)
             break
     telloui.onClose()
-
 
 def check_damage():
     print("check damage")
