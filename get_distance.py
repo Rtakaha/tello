@@ -3,7 +3,6 @@ from tello_control_ui_aruco import TelloUI
 from time import sleep
 import threading
 import sys
-from main_seq import *
 
 
 drone = False
