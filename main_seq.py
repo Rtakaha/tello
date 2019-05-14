@@ -9,7 +9,9 @@ drone = False
 telloui = False
 commands = []
 all_detected_ids = set()
-current_place = [0, 0, 0] #(x, y, z)
+x = 0
+y = 0
+z = 0
 
 class Command:
     def __init__(self, type):
@@ -19,7 +21,6 @@ class Command:
 def sequence_thread():
     sleep(2)
     print('[seq] Start!')
-    gs = GetDistance(drone)
     for command in commands:
         if isinstance(command, Command):
             if command.type == 'go2heritage':
@@ -41,21 +42,35 @@ def marker_detected(ids):
     all_detected_ids |= set(ids)
     print(all_detected_ids)
 
-def go2heritage(){
+def go2heritage():
     print("go to heritage")
-}
+    drone.takeoff()
+    sleep(7)
+    height = drone.get_height()
+    drone.move_up(0.9-height)
+    drone.get_height()
+    sleep()
+    drone.move_backward(0.5)
+    drone.get_height()
+    y += 0.5
+    sleep(7)
+    height = drone.get_height()
+    drone.move_down(height-0.7)
+    height = drone.get_height()
+    z = height
+    drone.land()
 
-def turn_AR(){
+def turn_AR():
     print("turn_AR")
-}
 
-def check_damage(){
+
+def check_damage():
     print("check damage")
-}
 
-def back2home(){
+
+def back2home():
     print("back to home")
-}
+
 
 if __name__ == "__main__":
     # launch tello
