@@ -3,50 +3,35 @@ from tello_control_ui_aruco import TelloUI
 from time import sleep
 import threading
 import sys
-from get_distance import GetDistance
-
+from get_distance import GetSensor
 
 drone = False
 telloui = False
 commands = []
 all_detected_ids = set()
+current_place = [0, 0, 0] #(x, y, z)
 
-# Command class
-#   represents a command without parameters
 class Command:
-    def __init__(self, type=None, distance=None, digree=None, clockwise=1):
+    def __init__(self, type):
         self.type = type
-
-# CommandSleep class
-class CommandSleep:
-    # time(sec)
-    def __init__(self, time):
-        self.time = time
 
 # Interprets command classes and controls tello
 def sequence_thread():
     sleep(2)
     print('[seq] Start!')
-    gd = GetDistance(drone)
+    gs = GetDistance(drone)
     for command in commands:
-        height = gd.get_height()
-        speed = gd.get_speed()
-        print("height")
-        print(height)
-        print("speed")
-        print(speed)
         if isinstance(command, Command):
-            if command.type == 'takeoff':
-                drone.takeoff()
-            elif command.type == 'land':
-                drone.land()
+            if command.type == 'go2heritage':
+                go2heritage()
+            elif command.type == 'turn_AR':
+                turn_AR()
+            elif command.type == 'check_damage':
+                check_damage()
+            elif command.type == 'back2home':
+                back2home()
             else:
                 print(command)
-        elif isinstance(command, CommandSleep):
-            sleep(command.time)
-        else:
-            print(command)
-
     print('[seq] exitting...')
     telloui.onClose()
 
@@ -55,6 +40,22 @@ def marker_detected(ids):
 #    print(ids)
     all_detected_ids |= set(ids)
     print(all_detected_ids)
+
+def go2heritage(){
+    print("go to heritage")
+}
+
+def turn_AR(){
+    print("turn_AR")
+}
+
+def check_damage(){
+    print("check damage")
+}
+
+def back2home(){
+    print("back to home")
+}
 
 if __name__ == "__main__":
     # launch tello
@@ -68,9 +69,10 @@ if __name__ == "__main__":
     # run sequencer thread
 
     # make instances of command classes
-    commands.append(Command('takeoff'))
-    commands.append(CommandSleep(5))
-    commands.append(Command('land'))
+    commands.append(Command('go2heritage'))
+    commands.append(Command('turn_AR'))
+    commands.append(Command('check_damage'))
+    commands.append(Command('back2home'))
 
 	# start the Tkinter mainloop
     telloui.root.mainloop()
