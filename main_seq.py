@@ -9,7 +9,9 @@ drone = False
 telloui = False
 commands = []
 all_detected_ids = set()
-current_place = [0, 0, 0] #(x, y, z)
+x = 0
+y = 0
+z = 0
 
 class Command:
     def __init__(self, type):
@@ -19,7 +21,6 @@ class Command:
 def sequence_thread():
     sleep(2)
     print('[seq] Start!')
-    gs = GetDistance(drone)
     for command in commands:
         if isinstance(command, Command):
             if command.type == 'go2heritage':
@@ -41,21 +42,27 @@ def marker_detected(ids):
     all_detected_ids |= set(ids)
     print(all_detected_ids)
 
-def go2heritage(){
+def go2heritage():
     print("go to heritage")
-}
 
-def turn_AR(){
+def turn_AR():
     print("turn_AR")
-}
 
-def check_damage(){
+def check_damage():
+
     print("check damage")
-}
 
-def back2home(){
+def back2home():
     print("back to home")
-}
+    drone.takeoff()
+    sleep(5)
+    if x > 0:
+        drone.move_left(abs(x))
+    elif (current_place[0] < 0):
+        drone.move_right(abs(x))
+    drone.move_forward(y)
+    sleep(5)
+    drone.land()
 
 if __name__ == "__main__":
     # launch tello
@@ -69,9 +76,9 @@ if __name__ == "__main__":
     # run sequencer thread
 
     # make instances of command classes
-    commands.append(Command('go2heritage'))
-    commands.append(Command('turn_AR'))
-    commands.append(Command('check_damage'))
+    # commands.append(Command('go2heritage'))
+    # commands.append(Command('turn_AR'))
+    # commands.append(Command('check_damage'))
     commands.append(Command('back2home'))
 
 	# start the Tkinter mainloop
