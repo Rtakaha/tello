@@ -1,4 +1,4 @@
-import tello
+#import tello
 from tello_control_ui_aruco import TelloUI
 from time import sleep
 import threading
