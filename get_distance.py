@@ -19,7 +19,7 @@ class GetSensor:
 
     def get_height(self):
         self.height = self.drone.get_height()
-        return self.height*10 # cm
+        return self.height*10 # 10cm
 
     def get_speed(self):
         self.speed = self.drone.get_speed()

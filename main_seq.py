@@ -13,6 +13,7 @@ x = 0
 y = 0
 z = 0
 repair_list = []
+zero = 0
 
 class Command:
     def __init__(self, type):
@@ -40,66 +41,75 @@ def sequence_thread():
 def marker_detected(ids):
     global all_detected_ids
     global repair_list
+    global zero
 #    print(ids)
     all_detected_ids |= set(ids)
     for id in all_detected_ids:
         if not id in repair_list:
-            if not id == 0:
+            if id == 0:
+                zero = 1
+                print("haha")
+            elif not id == 0:
                 repair_list.append(id)
+
     print(repair_list)
 
 def go2heritage():
+    global y
+    # global z
     print("go to heritage")
     drone.takeoff()
-    sleep(7)
-    height = drone.get_height()
-    a = 0.9 - height
+    sleep(10)
+    # height = drone.get_height()
+    # sleep(7)
+    # a = 0.9 - height
+    a = 0.3
     drone.move_up(a)
-    drone.get_height()
-    sleep()
-    drone.move_backward(0.5)
-    drone.get_height()
-    y += 0.5
     sleep(7)
-    height = drone.get_height()
-    b = height - 0.7
+    drone.move_backward(4.0)
+    print("ok")
+    y += 4
+    sleep(10)
+    # height = drone.get_height()
+    # sleep(7)
+    # b = height - 0.7
+    b = 0.3
     drone.move_down(b)
-    height = drone.get_height()
-    z = height
+    # z = height
 
 def turn_AR():
+    global zero
     print("turn_AR")
     sleep(2)
     while(1):
-        if 0 in list(all_detected_ids):
+        if zero == 1:
+            print("ok")
+            sleep(10)
             drone.rotate_ccw(180)
             sleep(10)
             break
-    telloui.onClose()
+    # telloui.onClose()
 
 def check_damage():
     print("check damage")
-    sleep(20)
-    drone.move_up(0.5)
+    drone.move_up(0.7)
     sleep(10)
-    drone.move_left(1.0)
+    drone.move_left(0.3)
     sleep(10)
-    drone.move_right(1.0)
+    drone.move_right(0.6)
     sleep(10)
-    drone.move_right(1.0)
-    sleep(10)
-    drone.move_left(1.0)
+    drone.move_left(0.3)
     sleep(10)
     drone.rotate_cw(180)
-    print("markers: " + str(repair_list))
+    # print("markers: " + str(repair_list))
 
 def back2home():
     print("back to home")
     sleep(5)
-    if x > 0:
-        drone.move_left(abs(x))
-    elif (current_place[0] < 0):
-        drone.move_right(abs(x))
+    # if x > 0:
+    #     drone.move_left(abs(x))
+    # elif (x < 0):
+    #     drone.move_right(abs(x))
     drone.move_forward(y)
     sleep(5)
     drone.land()
@@ -111,9 +121,9 @@ def back2home():
         elif id % 2 == 1:
             serious += 1
 
+    print("markers: " + str(repair_list))
     print("alert: " + str(alert))
     print("serious: " + str(serious))
->>>>>>> master
 
 if __name__ == "__main__":
 
@@ -128,10 +138,10 @@ if __name__ == "__main__":
     # run sequencer thread
 
     # make instances of command classes
-    commands.append(Command('go2heritage'))
+    # commands.append(Command('go2heritage'))
     commands.append(Command('turn_AR'))
     commands.append(Command('check_damage'))
-    commands.append(Command('back2home'))
+    # commands.append(Command('back2home'))
 
 	# start the Tkinter mainloop
     telloui.root.mainloop()
